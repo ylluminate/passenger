@@ -902,11 +902,15 @@ protected:
 
 	void prepareSwitchingWorkingDirectory(SpawnPreparationInfo &info, const Options &options) const {
 		vector<string> components;
+		P_WARN("prepareSwitchingWorkingDirectory: " << cEscapeString(info.appRootInsideChroot));
+		P_WARN("prepareSwitchingWorkingDirectory: chroot = " << cEscapeString(info.chrootDir));
 		split(info.appRootInsideChroot, '/', components);
+		P_WARN("prepareSwitchingWorkingDirectory: split into " << components.size() << " components");
 		assert(components.front() == "");
 		components.erase(components.begin());
 
 		for (unsigned int i = 0; i < components.size(); i++) {
+			P_WARN("prepareSwitchingWorkingDirectory: components[" << i << "] = " << cEscapeString(components[i]));
 			string path;
 			for (unsigned int j = 0; j <= i; j++) {
 				path.append("/");
@@ -923,6 +927,8 @@ protected:
 			info.appRootPathsInsideChroot.push_back(path);
 		}
 
+		P_WARN("prepareSwitchingWorkingDirectory: appRootInsideChroot = " << cEscapeString(info.appRootInsideChroot));
+		P_WARN("prepareSwitchingWorkingDirectory: done");
 		assert(info.appRootPathsInsideChroot.back() == info.appRootInsideChroot);
 	}
 	
